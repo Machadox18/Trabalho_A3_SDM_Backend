@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.trabalho</groupId>
-    <artifactId>trabalho-a3-sdm-backend</artifactId>
+    <artifactId>trabalho_a3_sdm_backend</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <build>
