@@ -5,10 +5,9 @@ Sistema desenvolvido para a disciplina de Sistemas Distribuídos e Mobile (SDM) 
 
 | Nome Completo                         | GitHub                               | RA          |
 | ------------------------------------- |--------------------------------------| ----------- |
+| Arthur Kroth Posselt                  | @Arthur-Kroth                        | 10725115044 |
 | Ester da Rosa Mariani                 | @Estermrn                            | 10725115450 |
 | Evelyn Yasmin Ferreira Leal           | @EvelynYs2                           | 10725115169 |
-| Fabrício Valdemar de Aguiar Filho     | @AguiarFabricio & Fabricio de Aguiar | 10725115451 |
 | Gabriel Machado da Fonseca            | @Machadox18                          | 10725115066 |
-| Mario Gabriel Imperator dos Santos    | @mariooimp                           | 10725115250 |
 
 ---
