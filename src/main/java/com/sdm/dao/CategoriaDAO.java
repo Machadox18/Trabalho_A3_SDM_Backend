@@ -30,6 +30,14 @@ public class CategoriaDAO {
         }
     }
 
+    public void salvar(Categoria categoria) {
+        if (categoria.getId() == 0) {
+            inserir(categoria); // chama o método já existente
+        } else {
+            atualizar(categoria); // atualiza se já tiver ID
+        }
+    }
+
     public List<Categoria> listar() {
         List<Categoria> categorias = new ArrayList<>();
         String sql = "SELECT * FROM categoria";
@@ -73,6 +81,31 @@ public class CategoriaDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public Categoria buscarPorId(int id) {
+        String sql = "SELECT * FROM categoria WHERE id_categoria = ?";
+        Categoria categoria = null;
+
+        try (Connection conn = ConexaoDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                categoria = new Categoria();
+                categoria.setId(rs.getInt("id_categoria"));
+                categoria.setNome(rs.getString("nome"));
+                categoria.setTamanho(TamanhoProduto.valueOf(rs.getString("tamanho")));
+                categoria.setEmbalagem(EmbalagemProduto.valueOf(rs.getString("embalagem")));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categoria;
     }
 
     public boolean deletar(int id) {
