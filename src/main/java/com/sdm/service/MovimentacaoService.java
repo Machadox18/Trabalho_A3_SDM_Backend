@@ -3,7 +3,7 @@ package com.sdm.service;
 import com.sdm.dao.MovimentacaoDAO;
 import com.sdm.model.Movimentacao;
 import com.sdm.dao.ProdutoDAO;
-
+import com.sdm.model.Produto;
 import java.time.LocalDateTime;
 
 public class MovimentacaoService {
@@ -41,12 +41,21 @@ public class MovimentacaoService {
         if (!estoqueAtualizado) { //Se não atualizou, retorna falso
             return false;
         }
+        /*
+        Mostra aviso se a quantidade em estoque de determinado produto está acima da quantidade máxima
+        ou abaixo da quantidade mínima
+         */
+        Produto produto = produtoDAO.buscarPorId(movimentacao.getProdutoId());
+        String statusProduto = "Status: ";
+        if (produto.getQuantidadeEstoque() > produto.getQuantidadeMaxima()) {
+            statusProduto += String.format("A quantidade do produto %s está acima da quantidade máxima", produto.getNome());
+        } else if (produto.getQuantidadeEstoque() < produto.getQuantidadeMinima()) {
+            statusProduto += String.format("A quantidade do produto %s está abaixo da quantidade mínima", produto.getNome());
+        }
 
         return movimentacaoDAO.inserir(movimentacao); /*Avisa para o DAO inserir as movimentações
-                                                        no banco de dados
-                                                      */
+                                                        no banco de dados*/
     }
-
 }
 
 

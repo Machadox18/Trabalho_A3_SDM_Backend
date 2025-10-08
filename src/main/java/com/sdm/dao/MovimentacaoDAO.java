@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public class MovimentacaoDAO {
 
-    // Método privado para atualizar a quantidade de estoque
+    // Método para atualizar a quantidade de estoque
     public boolean atualizarEstoque(int produtoId, int quantidade, String tipo) {
         String sql = "";
 
