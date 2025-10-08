@@ -113,6 +113,35 @@ public class ProdutoDAO {
             System.out.println("Erro ao atualizar: " + e.getMessage());
         }
     }
+    /*
+    Método para buscar o produto pelo Id
+     */
+    public Produto buscarPorId(int id) {
+        String sql = "SELECT * FROM produto WHERE id_produto = ?";
+        Produto produto = null;
+
+        try (Connection conn = ConexaoDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                produto = new Produto();
+                produto.setId(rs.getInt("id_produto"));
+                produto.setNome(rs.getString("nome"));
+                produto.setPrecoUnitario(rs.getDouble("preco_unitario"));
+                produto.setUnidade(rs.getString("unidade"));
+                produto.setQuantidadeEstoque(rs.getInt("qtd_estoque"));
+                produto.setQuantidadeMinima(rs.getInt("qtd_minima"));
+                produto.setQuantidadeMaxima(rs.getInt("qtd_maxima"));
+            }
+
+        } catch  (SQLException e) {
+            e.printStackTrace();
+        }
+        return produto;
+    }
 
     // DELETE
     public boolean deletar(int id) {
