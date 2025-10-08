@@ -9,37 +9,8 @@ import java.time.LocalDateTime;
 
 public class MovimentacaoDAO {
 
-    // Método que movimenta o estoque e registra a movimentação
-    public boolean movimentarEstoque(int produtoId, int quantidade, String tipo, String dataStr) {
-        // 1. Atualizar estoque
-        boolean estoqueAtualizado = atualizarEstoque(produtoId, quantidade, tipo);
-
-        if (!estoqueAtualizado) {
-            System.out.println("Erro ao atualizar o estoque.");
-            return false;
-        }
-
-        // 2. Criar objeto Movimentacao
-        Movimentacao movimentacao = new Movimentacao();
-        movimentacao.setProdutoId(produtoId);
-        movimentacao.setQuantidade(quantidade);
-        movimentacao.setTipo(tipo);
-
-        // Definir data
-        LocalDateTime data;
-        if (dataStr != null && !dataStr.isEmpty()) {
-            data = LocalDateTime.parse(dataStr);
-        } else {
-            data = LocalDateTime.now();
-        }
-        movimentacao.setData(data);
-
-        // 3. Inserir movimentação
-        return inserir(movimentacao);
-    }
-
     // Método privado para atualizar a quantidade de estoque
-    private boolean atualizarEstoque(int produtoId, int quantidade, String tipo) {
+    public boolean atualizarEstoque(int produtoId, int quantidade, String tipo) {
         String sql = "";
 
         if ("ENTRADA".equalsIgnoreCase(tipo)) {
