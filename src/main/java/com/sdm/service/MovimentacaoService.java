@@ -11,7 +11,8 @@ public class MovimentacaoService {
     private ProdutoDAO produtoDAO = new ProdutoDAO();
 
     /*
-    Método para registrar a movimentação
+    Método para registrar a movimentação e mostrar se o produto está acima do máximo
+    ou abaixo do mínimo
      */
     public boolean registrarEstoque(int produtoId, int quantidade, String tipo, String dataStr) {
         /*
@@ -55,6 +56,10 @@ public class MovimentacaoService {
 
         return movimentacaoDAO.inserir(movimentacao); /*Avisa para o DAO inserir as movimentações
                                                         no banco de dados*/
+    }
+
+    public boolean reajustarPrecos(double percentual) {
+        return produtoDAO.reajustarPrecos(percentual);
     }
 }
 
