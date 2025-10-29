@@ -57,10 +57,6 @@ public class MovimentacaoService {
         return movimentacaoDAO.inserir(movimentacao); /*Avisa para o DAO inserir as movimentações
                                                         no banco de dados*/
     }
-
-    public boolean reajustarPrecos(double percentual) {
-        return produtoDAO.reajustarPrecos(percentual);
-    }
 }
 
 
