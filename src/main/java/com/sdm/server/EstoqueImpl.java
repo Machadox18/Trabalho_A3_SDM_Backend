@@ -1,17 +1,20 @@
 package com.sdm.server;
 
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-
 import com.sdm.dao.ProdutoDAO;
 import com.sdm.dao.CategoriaDAO;
 import com.sdm.dao.MovimentacaoDAO;
 import com.sdm.model.Produto;
 import com.sdm.model.Categoria;
 import com.sdm.model.Movimentacao;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
+/**
+ * Implementação do serviço remoto de estoque (lado do servidor RMI).
+ * Integra diretamente com os DAOs reais do sistema.
+ */
 public class EstoqueImpl extends UnicastRemoteObject implements RemoteEstoque {
 
     private final ProdutoDAO produtoDAO;
@@ -25,9 +28,10 @@ public class EstoqueImpl extends UnicastRemoteObject implements RemoteEstoque {
         this.movimentacaoDAO = new MovimentacaoDAO();
     }
 
-    // Produtos
+    /* ========================= PRODUTOS ========================= */
+
     @Override
-    public ArrayList<Produto> listarProdutos() throws RemoteException {
+    public List<Produto> listarProdutos() throws RemoteException {
         return produtoDAO.listar();
     }
 
@@ -37,13 +41,13 @@ public class EstoqueImpl extends UnicastRemoteObject implements RemoteEstoque {
     }
 
     @Override
-    public boolean inserirProduto(Produto p) throws RemoteException {
-        return produtoDAO.inserir(p);
+    public void inserirProduto(Produto p) throws RemoteException {
+        produtoDAO.inserir(p);
     }
 
     @Override
-    public boolean atualizarProduto(Produto p) throws RemoteException {
-        return produtoDAO.atualizar(p);
+    public void atualizarProduto(Produto p) throws RemoteException {
+        produtoDAO.atualizar(p);
     }
 
     @Override
@@ -51,7 +55,8 @@ public class EstoqueImpl extends UnicastRemoteObject implements RemoteEstoque {
         return produtoDAO.deletar(id);
     }
 
-    // Categorias
+    /* ========================= CATEGORIAS ========================= */
+
     @Override
     public List<Categoria> listarCategorias() throws RemoteException {
         return categoriaDAO.listar();
@@ -64,7 +69,7 @@ public class EstoqueImpl extends UnicastRemoteObject implements RemoteEstoque {
 
     @Override
     public void inserirCategoria(Categoria c) throws RemoteException {
-        return categoriaDAO.inserir(c);
+        categoriaDAO.inserir(c);
     }
 
     @Override
@@ -77,26 +82,22 @@ public class EstoqueImpl extends UnicastRemoteObject implements RemoteEstoque {
         return categoriaDAO.deletar(id);
     }
 
-    // Movimentacoes
-    @Override
-    public ArrayList<Movimentacao> listarMovimentacoes() throws RemoteException {
-        // se seu MovimentacaoDAO tem nome diferente para listar adapte aqui
-        return movimentacaoDAO.listar();
-    }
+    /* ========================= MOVIMENTAÇÕES ========================= */
 
     @Override
     public boolean registrarMovimentacao(Movimentacao m) throws RemoteException {
-        // Algumas implementações fazem inserir + atualizar estoque separadamente.
-        // Aqui assumimos que MovimentacaoDAO.insere e MovimentacaoDAO.atualizarEstoque existem.
-        boolean okInsert = movimentacaoDAO.inserir(m);
-        if (!okInsert) return false;
-        // se existir método atualizarEstoque(int produtoId, int novaQuantidade) ou similar:
-        try {
-            movimentacaoDAO.atualizarEstoque(m.getProduto().getId(), m.getQuantidade());
-        } catch (Exception ex) {
-            // se der erro ao atualizar estoque, você pode optar por logar ou reverter
-            System.err.println("Aviso: não foi possível atualizar estoque automaticamente: " + ex.getMessage());
+        // Insere a movimentação no banco
+        boolean sucessoMov = movimentacaoDAO.inserir(m);
+
+        // Atualiza o estoque conforme o tipo (entrada ou saída)
+        if (sucessoMov) {
+            return movimentacaoDAO.atualizarEstoque(
+                    m.getProdutoId(),
+                    m.getQuantidade(),
+                    m.getTipo()
+            );
         }
-        return true;
+
+        return false;
     }
 }
