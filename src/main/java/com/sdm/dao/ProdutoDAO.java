@@ -3,7 +3,11 @@ package com.sdm.dao;
 import com.sdm.model.Categoria;
 import com.sdm.model.Produto;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import java.util.ArrayList;
 import java.util.List;

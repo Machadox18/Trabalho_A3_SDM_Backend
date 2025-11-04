@@ -10,4 +10,8 @@ public class RelatorioService {
     /*Uma relação de todos os produtos do estoque em ordem alfabética,
     constando do preço de cada um deles, unidade de medida e categoria.*/
 
+    public List<Produto> listarPrecos() {
+        return dao.listarPrecos();
+    }
+
 }
