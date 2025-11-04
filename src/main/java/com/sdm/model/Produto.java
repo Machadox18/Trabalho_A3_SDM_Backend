@@ -26,6 +26,11 @@ public class Produto {
         this.categoria = categoria;
     }
 
+    public Produto(String nome, double precoUnitario, String unidade) {
+        this.nome = nome;
+        this.precoUnitario = precoUnitario;
+    }
+
     //Getters e Setters
     public int getId() {
         return id;

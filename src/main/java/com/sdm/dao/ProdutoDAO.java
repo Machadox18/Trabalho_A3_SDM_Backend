@@ -3,12 +3,10 @@ package com.sdm.dao;
 import com.sdm.model.Categoria;
 import com.sdm.model.Produto;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProdutoDAO {
     // CREATE
@@ -90,6 +88,37 @@ public class ProdutoDAO {
             System.out.println("Erro ao reajustar preços: " + e.getMessage());
             return false;
         }
+    }
+
+    public List<Produto> listarPrecos() {
+        List<Produto> listaPrecos = new ArrayList<>();
+        String sql = "SELECT p.nome, p.preco_unitario, p.unidade, c.nome AS nome_categoria " +
+                     "FROM produto p " +
+                     "JOIN categoria c ON p.id_categoria = c.id_categoria " +
+                     "ORDER BY p.nome ASC";
+
+        try (Connection conn = ConexaoDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Produto p = new Produto(
+                        rs.getString("nome"),
+                        rs.getDouble("preco_unitario"),
+                        rs.getString("unidade"));
+
+                Categoria c = new Categoria(
+                        rs.getString("nome_categoria"));
+                        p.setCategoria(c);
+
+                listaPrecos.add(p);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar preços: " + e.getMessage());
+        }
+
+        return listaPrecos;
     }
 
     // UPDATE

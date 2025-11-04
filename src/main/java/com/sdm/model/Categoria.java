@@ -29,6 +29,10 @@ public class Categoria {
         this.nome = nomeCategoria;
     }
 
+    public Categoria(String nome) {
+        this.nome = nome;
+    }
+
     // Método getter que retorna o valor do atributo 'id'.
     public int getId() {
         return id;
