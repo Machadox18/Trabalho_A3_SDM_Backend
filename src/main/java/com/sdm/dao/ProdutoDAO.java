@@ -94,12 +94,13 @@ public class ProdutoDAO {
         }
     }
 
+    //Lista de preços
     public List<Produto> listarPrecos() {
         List<Produto> listaPrecos = new ArrayList<>();
-        String sql = "SELECT p.nome, p.preco_unitario, p.unidade, c.nome AS nome_categoria " +
-                     "FROM produto p " +
-                     "JOIN categoria c ON p.id_categoria = c.id_categoria " +
-                     "ORDER BY p.nome ASC";
+        String sql ="SELECT p.nome, p.preco_unitario, p.unidade, c.nome AS nome_categoria " +
+                    "FROM produto p " +
+                    "JOIN categoria c ON p.id_categoria = c.id_categoria " +
+                    "ORDER BY p.nome ASC";
 
         try (Connection conn = ConexaoDAO.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -123,6 +124,36 @@ public class ProdutoDAO {
         }
 
         return listaPrecos;
+    }
+
+    // Balanço Físico/Financeiro
+    public List<Produto> listarBalancoEstoque() {
+        List<Produto> listaBalancoEstoque = new ArrayList<>();
+        String sql ="SELECT nome, qtd_estoque, (preco_unitario * qtd_estoque) AS valor_total_produto" +
+                    "(SELECT SUM(preco_unitario * qtd_estoque) FROM produto) AS valor_total_estoque" +
+                    "ORDER BY nome ASC";
+
+        try (Connection conn = ConexaoDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Produto p = new Produto(
+                        rs.getString("nome"),
+                        rs.getInt("qtd_estoque"),
+                        rs.getDouble("valor_total_produto")
+                );
+
+                p.setPrecoTotalEstoque(rs.getDouble("valor_total_estoque"));
+                listaBalancoEstoque.add(p);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao gerar balanço de estoque: " + e.getMessage());
+        }
+
+        return listaBalancoEstoque;
+
     }
 
     // UPDATE

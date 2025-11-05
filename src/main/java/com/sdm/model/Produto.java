@@ -4,6 +4,8 @@ public class Produto {
     private int id;
     private String nome;
     private double precoUnitario;
+    private double precoTotalProduto;
+    private double precoTotalEstoque;
     private String unidade;
     private int quantidadeEstoque;
     private int quantidadeMinima;
@@ -31,6 +33,16 @@ public class Produto {
         this.precoUnitario = precoUnitario;
     }
 
+    public Produto(double precoTotalEstoque) {
+        this.precoTotalEstoque = precoTotalEstoque;
+    }
+
+    public Produto(String nome, int quantidadeEstoque, double precoTotalProduto) {
+        this.nome = nome;
+        this.quantidadeEstoque = quantidadeEstoque;
+        this.precoTotalProduto = precoTotalProduto;
+    }
+
     //Getters e Setters
     public int getId() {
         return id;
@@ -54,6 +66,22 @@ public class Produto {
 
     public void setPrecoUnitario(double precoUnitario) {
         this.precoUnitario = precoUnitario;
+    }
+
+    public double getPrecoTotalProduto() {
+        return precoTotalProduto;
+    }
+
+    public void setPrecoTotalProduto(double precoTotalProduto) {
+        this.precoTotalProduto = precoTotalProduto;
+    }
+
+    public double getPrecoTotalEstoque() {
+        return precoTotalEstoque;
+    }
+
+    public void setPrecoTotalEstoque(double precoTotalEstoque) {
+        this.precoTotalEstoque = precoTotalEstoque;
     }
 
     public String getUnidade() {
