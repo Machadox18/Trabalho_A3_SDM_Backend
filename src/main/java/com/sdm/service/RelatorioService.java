@@ -16,4 +16,8 @@ public class RelatorioService {
         return dao.listarBalancoEstoque();
     }
 
+    public List<Produto> listarAbaixoMinimo() {
+        return dao.listarAbaixoMinimo();
+    }
+
 }
