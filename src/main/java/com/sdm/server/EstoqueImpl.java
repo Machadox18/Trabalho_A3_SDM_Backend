@@ -6,10 +6,12 @@ import com.sdm.dao.MovimentacaoDAO;
 import com.sdm.model.Produto;
 import com.sdm.model.Categoria;
 import com.sdm.model.Movimentacao;
+import com.sdm.service.RelatorioService;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Implementação do serviço remoto de estoque (lado do servidor RMI).
@@ -20,12 +22,14 @@ public class EstoqueImpl extends UnicastRemoteObject implements RemoteEstoque {
     private final ProdutoDAO produtoDAO;
     private final CategoriaDAO categoriaDAO;
     private final MovimentacaoDAO movimentacaoDAO;
+    private final RelatorioService relatorioService;
 
     public EstoqueImpl() throws RemoteException {
         super();
         this.produtoDAO = new ProdutoDAO();
         this.categoriaDAO = new CategoriaDAO();
         this.movimentacaoDAO = new MovimentacaoDAO();
+        this.relatorioService = new RelatorioService();
     }
 
     /* ========================= PRODUTOS ========================= */
@@ -100,4 +104,18 @@ public class EstoqueImpl extends UnicastRemoteObject implements RemoteEstoque {
 
         return false;
     }
+
+    // --- RELATÓRIOS ---
+    public List<Produto> relatorioProdutosAbaixoMinimo() throws RemoteException {
+        return relatorioService.produtosAbaixoMinimo();
+    }
+
+    public List<Produto> relatorioProdutosAcimaMaximo() throws RemoteException {
+        return relatorioService.produtosAcimaMaximo();
+    }
+
+    public Map<String, Object> relatorioBalanco() throws RemoteException {
+        return relatorioService.gerarBalanco();
+    }
+
 }
