@@ -77,6 +77,35 @@ public class ProdutoDAO {
         return lista;
     }
 
+    //Abaixo da quantidade mínima
+    public List<Produto> listarAbaixoMinimo() {
+        List<Produto> listaAbaixoMinimo = new ArrayList<>();
+        String sql ="SELECT nome, qtd_minima, qtd_estoque " +
+                    "FROM produto " +
+                    "WHERE qtd_estoque < qtd_minima " +
+                    "ORDER BY nome ASC";
+
+        try (Connection conn = ConexaoDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Produto p = new Produto(
+                        rs.getString("nome"),
+                        rs.getInt("qtd_minima"),
+                        rs.getInt("qtd_estoque")
+                );
+
+                listaAbaixoMinimo.add(p);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar produtos abaixo do mínimo: " + e.getMessage());
+        }
+
+        return listaAbaixoMinimo;
+
+    }
 
     public boolean reajustarPrecos(double percentual) {
         String sql = "UPDATE produto SET preco_unitario = preco_unitario + (preco_unitario * ? / 100)";

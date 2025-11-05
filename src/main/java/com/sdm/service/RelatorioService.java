@@ -7,7 +7,7 @@ import com.sdm.model.Produto;
 
 public class RelatorioService {
     private ProdutoDAO dao = new ProdutoDAO();
-    
+
     public List<Produto> listarPrecos() {
         return dao.listarPrecos();
     }
