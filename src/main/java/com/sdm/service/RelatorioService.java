@@ -7,11 +7,13 @@ import com.sdm.model.Produto;
 
 public class RelatorioService {
     private ProdutoDAO dao = new ProdutoDAO();
-    /*Uma relação de todos os produtos do estoque em ordem alfabética,
-    constando do preço de cada um deles, unidade de medida e categoria.*/
-
+    
     public List<Produto> listarPrecos() {
         return dao.listarPrecos();
+    }
+
+    public List<Produto> listarBalancoEstoque() {
+        return dao.listarBalancoEstoque();
     }
 
 }
