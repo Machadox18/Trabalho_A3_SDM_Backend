@@ -3,6 +3,8 @@ package com.sdm.server;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Map;
+
 import com.sdm.model.Produto;
 import com.sdm.model.Categoria;
 import com.sdm.model.Movimentacao;
@@ -32,4 +34,11 @@ public interface RemoteEstoque extends Remote {
     /* ========================= MOVIMENTAÇÕES ========================= */
 
     boolean registrarMovimentacao(Movimentacao m) throws RemoteException;
+
+    /* ========================= RELATÓRIOS ========================= */
+
+    List<Produto> relatorioProdutosAbaixoMinimo() throws RemoteException;
+    List<Produto> relatorioProdutosAcimaMaximo() throws RemoteException;
+    Map<String, Object> relatorioBalanco() throws RemoteException;
+
 }
