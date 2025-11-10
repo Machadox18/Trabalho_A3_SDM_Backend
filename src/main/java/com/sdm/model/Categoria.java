@@ -12,6 +12,8 @@ public class Categoria {
     // Atributo privado que representa a embalagem do produto (também pode ser enum ou classe).
     private EmbalagemProduto embalagem;
 
+    private int qtd_produtoPorCategoria;
+
     // Construtor vazio (padrão), necessário para alguns frameworks ou para criar objetos sem inicializar os campos.
     public Categoria() {
     }
@@ -31,6 +33,11 @@ public class Categoria {
 
     public Categoria(String nome) {
         this.nome = nome;
+    }
+
+    public Categoria(String nome, int qtd_produtoPorCategoria) {
+        this.nome = nome;
+        this.qtd_produtoPorCategoria = qtd_produtoPorCategoria;
     }
 
     // Método getter que retorna o valor do atributo 'id'.
@@ -71,6 +78,14 @@ public class Categoria {
     // Setter para o atributo 'embalagem'.
     public void setEmbalagem(EmbalagemProduto embalagem) {
         this.embalagem = embalagem;
+    }
+
+    public int getQtd_produtoPorCategoria() {
+        return qtd_produtoPorCategoria;
+    }
+
+    public void setQtd_produtoPorCategoria(int qtd_produtoPorCategoria) {
+        this.qtd_produtoPorCategoria = qtd_produtoPorCategoria;
     }
 
     // Método sobrescrito que retorna uma representação em texto (string) do objeto Categoria.
