@@ -27,5 +27,9 @@ public class RelatorioService {
     public List<Categoria> produtoPorCategoria() {
         return catDAO.produtoPorCategoria();
     }
+
+    public List<Produto> listarMovimentacaoProduto() {
+        return dao.listarMovimentacaoProduto();
+    }
     
 }
