@@ -14,7 +14,7 @@ public class MovimentacaoService {
     Método para registrar a movimentação e mostrar se o produto está acima do máximo
     ou abaixo do mínimo
      */
-    public boolean registrarEstoque(int produtoId, int quantidade, String tipo, String dataStr) {
+    public boolean registrarMovimentacao(int produtoId, int quantidade, String tipo, String dataStr) {
         /*
         1. Cria objeto movimentação
          */
