@@ -1,6 +1,7 @@
 package com.sdm.dao;
 
 import com.sdm.model.Categoria;
+import com.sdm.model.Movimentacao;
 import com.sdm.model.Produto;
 
 import java.sql.Connection;
@@ -75,6 +76,35 @@ public class ProdutoDAO {
         }
 
         return lista;
+    }
+
+    public List<Produto> listarMovimentacaoProduto() {
+        List<Produto> produtos = new ArrayList<>();
+        String sql ="SELECT p.nome AS nome_produto, " +
+                    "(SELECT COUNT(*) FROM movimentacao m1 " +
+                    " WHERE m1.produto_id = p.id_produto AND m1.tipo = 'SAIDA') AS total_saidas, " +
+                    "(SELECT COUNT(*) FROM movimentacao m2 " +
+                    " WHERE m2.produto_id = p.id_produto AND m2.tipo = 'ENTRADA') AS total_entradas, " +
+                    "FROM produto p " +
+                    "ORDER BY mais_saidas DESC, mais_entradas DESC";
+
+        try (Connection conn = ConexaoDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Produto p = new Produto(
+                        rs.getString("nome_produto"),
+                        rs.getInt("total_saidas"),
+                        rs.getInt("total_entradas")
+                );
+                produtos.add(p);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar relatório: " + e.getMessage());
+        }
+        return produtos;
     }
 
     //Abaixo da quantidade mínima

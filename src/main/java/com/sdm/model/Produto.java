@@ -10,11 +10,19 @@ public class Produto {
     private int quantidadeEstoque;
     private int quantidadeMinima;
     private int quantidadeMaxima;
+    private int totalSaidas;
+    private int totalEntradas;
     private Categoria categoria;
 
     //Construtores
 
     public Produto() {
+    }
+
+    public Produto(String nome, int totalSaidas, int totalEntradas) {
+        this.nome = nome;
+        this.totalSaidas = totalSaidas;
+        this.totalEntradas = totalEntradas;
     }
 
     public Produto(int id, String nome, double precoUnitario, String unidade, int quantidadeEstoque, int quantidadeMinima, int quantidadeMaxima, Categoria categoria) {
@@ -114,6 +122,22 @@ public class Produto {
 
     public void setQuantidadeMaxima(int quantidadeMaxima) {
         this.quantidadeMaxima = quantidadeMaxima;
+    }
+
+    public int getTotalSaidas() {
+        return totalSaidas;
+    }
+
+    public void setTotalSaidas(int totalSaidas) {
+        this.totalSaidas = totalSaidas;
+    }
+
+    public int getTotalEntradas() {
+        return totalEntradas;
+    }
+
+    public void setTotalEntradas(int totalEntradas) {
+        this.totalEntradas = totalEntradas;
     }
 
     public Categoria getCategoria() {
