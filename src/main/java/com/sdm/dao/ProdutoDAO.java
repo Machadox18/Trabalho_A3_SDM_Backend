@@ -1,6 +1,7 @@
 package com.sdm.dao;
 
 import com.sdm.model.Categoria;
+import com.sdm.model.Movimentacao;
 import com.sdm.model.Produto;
 
 import java.sql.Connection;
@@ -8,7 +9,9 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProdutoDAO {
     // CREATE
@@ -75,6 +78,64 @@ public class ProdutoDAO {
         return lista;
     }
 
+    public List<Produto> listarMovimentacaoProduto() {
+        List<Produto> produtos = new ArrayList<>();
+        String sql ="SELECT p.nome AS nome_produto, " +
+                    "(SELECT COUNT(*) FROM movimentacao m1 " +
+                    " WHERE m1.produto_id = p.id_produto AND m1.tipo = 'SAIDA') AS total_saidas, " +
+                    "(SELECT COUNT(*) FROM movimentacao m2 " +
+                    " WHERE m2.produto_id = p.id_produto AND m2.tipo = 'ENTRADA') AS total_entradas, " +
+                    "FROM produto p " +
+                    "ORDER BY mais_saidas DESC, mais_entradas DESC";
+
+        try (Connection conn = ConexaoDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Produto p = new Produto(
+                        rs.getString("nome_produto"),
+                        rs.getInt("total_saidas"),
+                        rs.getInt("total_entradas")
+                );
+                produtos.add(p);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar relatório: " + e.getMessage());
+        }
+        return produtos;
+    }
+
+    //Abaixo da quantidade mínima
+    public List<Produto> listarAbaixoMinimo() {
+        List<Produto> listaAbaixoMinimo = new ArrayList<>();
+        String sql ="SELECT nome, qtd_minima, qtd_estoque " +
+                    "FROM produto " +
+                    "WHERE qtd_estoque < qtd_minima " +
+                    "ORDER BY nome ASC";
+
+        try (Connection conn = ConexaoDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Produto p = new Produto(
+                        rs.getString("nome"),
+                        rs.getInt("qtd_minima"),
+                        rs.getInt("qtd_estoque")
+                );
+
+                listaAbaixoMinimo.add(p);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar produtos abaixo do mínimo: " + e.getMessage());
+        }
+
+        return listaAbaixoMinimo;
+
+    }
 
     public boolean reajustarPrecos(double percentual) {
         String sql = "UPDATE produto SET preco_unitario = preco_unitario + (preco_unitario * ? / 100)";
@@ -90,6 +151,68 @@ public class ProdutoDAO {
             System.out.println("Erro ao reajustar preços: " + e.getMessage());
             return false;
         }
+    }
+
+    //Lista de preços
+    public List<Produto> listarPrecos() {
+        List<Produto> listaPrecos = new ArrayList<>();
+        String sql ="SELECT p.nome, p.preco_unitario, p.unidade, c.nome AS nome_categoria " +
+                    "FROM produto p " +
+                    "JOIN categoria c ON p.id_categoria = c.id_categoria " +
+                    "ORDER BY p.nome ASC";
+
+        try (Connection conn = ConexaoDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Produto p = new Produto(
+                        rs.getString("nome"),
+                        rs.getDouble("preco_unitario"),
+                        rs.getString("unidade"));
+
+                Categoria c = new Categoria(
+                        rs.getString("nome_categoria"));
+                        p.setCategoria(c);
+
+                listaPrecos.add(p);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar preços: " + e.getMessage());
+        }
+
+        return listaPrecos;
+    }
+
+    // Balanço Físico/Financeiro
+    public List<Produto> listarBalancoEstoque() {
+        List<Produto> listaBalancoEstoque = new ArrayList<>();
+        String sql ="SELECT nome, qtd_estoque, (preco_unitario * qtd_estoque) AS valor_total_produto" +
+                    "(SELECT SUM(preco_unitario * qtd_estoque) FROM produto) AS valor_total_estoque" +
+                    "ORDER BY nome ASC";
+
+        try (Connection conn = ConexaoDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Produto p = new Produto(
+                        rs.getString("nome"),
+                        rs.getInt("qtd_estoque"),
+                        rs.getDouble("valor_total_produto")
+                );
+
+                p.setPrecoTotalEstoque(rs.getDouble("valor_total_estoque"));
+                listaBalancoEstoque.add(p);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao gerar balanço de estoque: " + e.getMessage());
+        }
+
+        return listaBalancoEstoque;
+
     }
 
     // UPDATE

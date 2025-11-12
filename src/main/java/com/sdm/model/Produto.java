@@ -4,15 +4,25 @@ public class Produto {
     private int id;
     private String nome;
     private double precoUnitario;
+    private double precoTotalProduto;
+    private double precoTotalEstoque;
     private String unidade;
     private int quantidadeEstoque;
     private int quantidadeMinima;
     private int quantidadeMaxima;
+    private int totalSaidas;
+    private int totalEntradas;
     private Categoria categoria;
 
     //Construtores
 
     public Produto() {
+    }
+
+    public Produto(String nome, int totalSaidas, int totalEntradas) {
+        this.nome = nome;
+        this.totalSaidas = totalSaidas;
+        this.totalEntradas = totalEntradas;
     }
 
     public Produto(int id, String nome, double precoUnitario, String unidade, int quantidadeEstoque, int quantidadeMinima, int quantidadeMaxima, Categoria categoria) {
@@ -24,6 +34,21 @@ public class Produto {
         this.quantidadeMinima = quantidadeMinima;
         this.quantidadeMaxima = quantidadeMaxima;
         this.categoria = categoria;
+    }
+
+    public Produto(String nome, double precoUnitario, String unidade) {
+        this.nome = nome;
+        this.precoUnitario = precoUnitario;
+    }
+
+    public Produto(double precoTotalEstoque) {
+        this.precoTotalEstoque = precoTotalEstoque;
+    }
+
+    public Produto(String nome, int quantidadeEstoque, double precoTotalProduto) {
+        this.nome = nome;
+        this.quantidadeEstoque = quantidadeEstoque;
+        this.precoTotalProduto = precoTotalProduto;
     }
 
     //Getters e Setters
@@ -49,6 +74,22 @@ public class Produto {
 
     public void setPrecoUnitario(double precoUnitario) {
         this.precoUnitario = precoUnitario;
+    }
+
+    public double getPrecoTotalProduto() {
+        return precoTotalProduto;
+    }
+
+    public void setPrecoTotalProduto(double precoTotalProduto) {
+        this.precoTotalProduto = precoTotalProduto;
+    }
+
+    public double getPrecoTotalEstoque() {
+        return precoTotalEstoque;
+    }
+
+    public void setPrecoTotalEstoque(double precoTotalEstoque) {
+        this.precoTotalEstoque = precoTotalEstoque;
     }
 
     public String getUnidade() {
@@ -81,6 +122,22 @@ public class Produto {
 
     public void setQuantidadeMaxima(int quantidadeMaxima) {
         this.quantidadeMaxima = quantidadeMaxima;
+    }
+
+    public int getTotalSaidas() {
+        return totalSaidas;
+    }
+
+    public void setTotalSaidas(int totalSaidas) {
+        this.totalSaidas = totalSaidas;
+    }
+
+    public int getTotalEntradas() {
+        return totalEntradas;
+    }
+
+    public void setTotalEntradas(int totalEntradas) {
+        this.totalEntradas = totalEntradas;
     }
 
     public Categoria getCategoria() {
