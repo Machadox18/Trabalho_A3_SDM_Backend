@@ -31,5 +31,4 @@ public class RelatorioService {
     public List<Produto> listarMovimentacaoProduto() {
         return dao.listarMovimentacaoProduto();
     }
-    
 }
