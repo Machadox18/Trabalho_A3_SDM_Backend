@@ -14,6 +14,10 @@ public class ProdutoService {
     public ArrayList<Produto> listar() {
         return produtoDAO.listar();
     }
+    
+    public void atualizar(Produto p) {
+        produtoDAO.atualizar(p);
+    }
 
     /*
     Método para reajustar o preço dos produtos em um determinado percentual
