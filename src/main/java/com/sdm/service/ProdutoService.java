@@ -22,6 +22,10 @@ public class ProdutoService {
     public Produto buscarPorId(int id) {
         return produtoDAO.buscarPorId(id);
     }
+    
+    public boolean deletar(int id) {
+        return produtoDAO.deletar(id);
+    }
 
     /*
     Método para reajustar o preço dos produtos em um determinado percentual
