@@ -18,6 +18,10 @@ public class ProdutoService {
     public void atualizar(Produto p) {
         produtoDAO.atualizar(p);
     }
+    
+    public Produto buscarPorId(int id) {
+        return produtoDAO.buscarPorId(id);
+    }
 
     /*
     Método para reajustar o preço dos produtos em um determinado percentual
