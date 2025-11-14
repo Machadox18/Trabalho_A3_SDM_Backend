@@ -137,6 +137,34 @@ public class ProdutoDAO {
 
     }
 
+    public List<Produto> listarAcimaMaximo() {
+        List<Produto> listaAcimaMaximo = new ArrayList<>();
+        String sql = "SELECT nome, qtd_maxima, qtd_estoque " +
+                "FROM produto " +
+                "WHERE qtd_estoque > qtd_maxima " +
+                "ORDER BY nome ASC";
+
+        try (Connection conn = ConexaoDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Produto p = new Produto(
+                        rs.getString("nome"),
+                        rs.getInt("qtd_estoque"),
+                        rs.getInt("qtd_maxima")
+                );
+
+                listaAcimaMaximo.add(p);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar produtos acima do máximo: " + e.getMessage());
+        }
+
+        return listaAcimaMaximo;
+    }
+
     public boolean reajustarPrecos(double percentual) {
         String sql = "UPDATE produto SET preco_unitario = preco_unitario + (preco_unitario * ? / 100)";
 
