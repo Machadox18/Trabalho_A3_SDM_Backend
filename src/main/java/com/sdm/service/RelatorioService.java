@@ -24,6 +24,10 @@ public class RelatorioService {
         return dao.listarAbaixoMinimo();
     }
 
+    public List<Produto> produtosAcimaMaximo() {
+        return dao.listarAcimaMaximo();
+    }
+
     public List<Categoria> produtoPorCategoria() {
         return catDAO.produtoPorCategoria();
     }
