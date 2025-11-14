@@ -63,6 +63,36 @@ public class CategoriaDAO {
         return categorias;
     }
 
+    public List<Categoria> produtoPorCategoria() {
+        List<Categoria> lista = new ArrayList<>();
+        String sql = "SELECT c.nome AS nome_categoria, COUNT(DISTINCT p.id_produto) AS qtd_produtos " +
+                     "FROM produto p " +
+                     "JOIN categoria c ON p.id_categoria = c.id_categoria " +
+                     "GROUP BY c.nome " +
+                     "ORDER BY c.nome ASC";
+
+        try (Connection conn = ConexaoDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Categoria cat = new Categoria(
+                        rs.getString("nome_categoria"),
+                        rs.getInt("qtd_produtos")
+                );
+
+                lista.add(cat);
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar produtos por categoria: " + e.getMessage());
+        }
+
+        return lista;
+
+    }
+
     public boolean atualizar(Categoria categoriaAtualizada) {
         String sql = "UPDATE categoria SET nome = ?, tamanho = ?, embalagem = ? WHERE id_categoria = ?";
 
