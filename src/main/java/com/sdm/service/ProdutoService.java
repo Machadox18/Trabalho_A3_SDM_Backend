@@ -27,6 +27,13 @@ public class ProdutoService {
     public void atualizar(Produto p) {
         produtoDAO.atualizar(p);
     }
+    
+    /*
+    Método para buscar um produto no banco de dados baseado em seu id
+     */
+    public Produto buscarPorId(int id) {
+        return produtoDAO.buscarPorId(id);
+    }
 
     /*
     Método para reajustar o preço dos produtos em um determinado percentual
