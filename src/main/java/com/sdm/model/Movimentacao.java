@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class Movimentacao {
     private int id;
+    private String nome;
     private int produtoId;
     private int quantidade;
     private String tipo; // ENTRADA ou SAIDA
@@ -13,7 +14,9 @@ public class Movimentacao {
         this.data = LocalDateTime.now();
     }
 
-    public Movimentacao(int produtoId, int quantidade, String tipo, LocalDateTime data) {
+    public Movimentacao(int id,String nome,int produtoId, int quantidade, String tipo, LocalDateTime data) {
+        this.id = id;
+        this.nome = nome;
         this.produtoId = produtoId;
         this.quantidade = quantidade;
         this.tipo = tipo;
@@ -23,6 +26,9 @@ public class Movimentacao {
     // Getters e Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
+
+    public String getNome(){ return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
     public int getProdutoId() { return produtoId; }
     public void setProdutoId(int produtoId) { this.produtoId = produtoId; }
