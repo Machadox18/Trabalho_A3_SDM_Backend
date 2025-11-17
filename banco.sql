@@ -22,3 +22,14 @@ CREATE TABLE IF NOT EXISTS produto (
     PRIMARY KEY (id_produto),
     FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
     );
+
+CREATE TABLE IF NOT EXISTS movimentacao (
+    id_movimentacao INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    produto_id INT NOT NULL,
+    quantidade INT NOT NULL,
+    tipo ENUM('ENTRADA', 'SAIDA') NOT NULL,
+    data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id_movimentacao),
+    FOREIGN KEY (produto_id) REFERENCES produto(id_produto)
+    );
