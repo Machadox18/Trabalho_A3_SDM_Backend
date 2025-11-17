@@ -36,6 +36,13 @@ public class ProdutoService {
     }
 
     /*
+    Método para deletar um produto do banco de dados
+     */
+    public boolean deletar(int id) {
+        return produtoDAO.deletar(id);
+    }
+    
+    /*
     Método para reajustar o preço dos produtos em um determinado percentual
      */
     public boolean reajustarPrecos(double percentual) {
