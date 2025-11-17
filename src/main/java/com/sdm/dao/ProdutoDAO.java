@@ -84,7 +84,7 @@ public class ProdutoDAO {
                     "(SELECT COUNT(*) FROM movimentacao m1 " +
                     " WHERE m1.produto_id = p.id_produto AND m1.tipo = 'SAIDA') AS total_saidas, " +
                     "(SELECT COUNT(*) FROM movimentacao m2 " +
-                    " WHERE m2.produto_id = p.id_produto AND m2.tipo = 'ENTRADA') AS total_entradas, " +
+                    " WHERE m2.produto_id = p.id_produto AND m2.tipo = 'ENTRADA') AS total_entradas " +
                     "FROM produto p " +
                     "ORDER BY mais_saidas DESC, mais_entradas DESC";
 
@@ -151,8 +151,8 @@ public class ProdutoDAO {
             while (rs.next()) {
                 Produto p = new Produto(
                         rs.getString("nome"),
-                        rs.getInt("qtd_estoque"),
-                        rs.getInt("qtd_maxima")
+                        rs.getInt("qtd_maxima"),
+                        rs.getInt("qtd_estoque")
                 );
 
                 listaAcimaMaximo.add(p);
@@ -216,7 +216,7 @@ public class ProdutoDAO {
     // Balanço Físico/Financeiro
     public List<Produto> listarBalancoEstoque() {
         List<Produto> listaBalancoEstoque = new ArrayList<>();
-        String sql ="SELECT nome, qtd_estoque, (preco_unitario * qtd_estoque) AS valor_total_produto" +
+        String sql ="SELECT nome, qtd_estoque, (preco_unitario * qtd_estoque) AS valor_total_produto," +
                     "(SELECT SUM(preco_unitario * qtd_estoque) FROM produto) AS valor_total_estoque" +
                     "ORDER BY nome ASC";
 

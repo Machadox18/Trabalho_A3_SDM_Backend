@@ -1,11 +1,11 @@
 package com.sdm.dao;
 
 import com.sdm.model.Movimentacao;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+
+import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovimentacaoDAO {
 
@@ -56,5 +56,66 @@ public class MovimentacaoDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+    // 📌 READ - Listar todas as movimentações
+    // ================================
+    public List<Movimentacao> listar() {
+        List<Movimentacao> lista = new ArrayList<>();
+        String sql = "SELECT * FROM movimentacao ORDER BY data DESC";
+
+        try (Connection conn = ConexaoDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Movimentacao m = new Movimentacao(
+                        rs.getInt("id_movimentacao"),
+                        rs.getString("nome"),
+                        rs.getInt("produto_id"),
+                        rs.getInt("quantidade"),
+                        rs.getString("tipo"),
+                        rs.getTimestamp("data").toLocalDateTime()
+                );
+
+                lista.add(m);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
+    // ================================
+    // 📌 READ - Buscar movimentação por ID
+    // ================================
+    public Movimentacao buscarPorId(int id) {
+        String sql = "SELECT * FROM movimentacao WHERE id_movimentacao = ?";
+        Movimentacao mov = null;
+
+        try (Connection conn = ConexaoDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                mov = new Movimentacao(
+                        rs.getInt("id_movimentacao"),
+                        rs.getString("nome"),
+                        rs.getInt("produto_id"),
+                        rs.getInt("quantidade"),
+                        rs.getString("tipo"),
+                        rs.getTimestamp("data").toLocalDateTime()
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return mov;
     }
 }
