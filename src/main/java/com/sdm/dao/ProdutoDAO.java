@@ -217,8 +217,9 @@ public class ProdutoDAO {
     public List<Produto> listarBalancoEstoque() {
         List<Produto> listaBalancoEstoque = new ArrayList<>();
         String sql ="SELECT nome, qtd_estoque, (preco_unitario * qtd_estoque) AS valor_total_produto," +
-                    "(SELECT SUM(preco_unitario * qtd_estoque) FROM produto) AS valor_total_estoque" +
-                    "ORDER BY nome ASC";
+                "(SELECT SUM(preco_unitario * qtd_estoque) FROM produto) AS valor_total_estoque " +
+                "FROM produto " +
+                "ORDER BY nome ASC";
 
         try (Connection conn = ConexaoDAO.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
