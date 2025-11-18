@@ -1,5 +1,6 @@
 package com.sdm.server;
 
+import com.sdm.model.Categoria;
 import com.sdm.model.Produto;
 
 import java.rmi.Remote;
@@ -24,4 +25,8 @@ public interface RemoteRelatorio extends Remote {
      *  - "valor_total_estoque" -> Double
      */
     List<Produto> relatorioBalanco() throws RemoteException;
+
+    List<Produto> listarPrecos() throws RemoteException;
+
+    List<Categoria> produtosPorCategoria() throws RemoteException;
 }
