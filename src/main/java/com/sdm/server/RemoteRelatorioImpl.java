@@ -1,5 +1,6 @@
 package com.sdm.server;
 
+import com.sdm.model.Categoria;
 import com.sdm.model.Produto;
 import com.sdm.service.RelatorioService;
 
@@ -33,5 +34,15 @@ public class RemoteRelatorioImpl extends UnicastRemoteObject implements RemoteRe
     @Override
     public List<Produto> relatorioBalanco() throws RemoteException {
         return relatorioService.listarBalancoEstoque();
+    }
+
+
+    public List<Produto> listarPrecos() throws RemoteException {
+        return relatorioService.listarPrecos();
+    }
+
+
+    public List<Categoria> produtosPorCategoria() throws RemoteException {
+        return relatorioService.produtoPorCategoria();
     }
 }
