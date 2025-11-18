@@ -50,7 +50,7 @@ public class CategoriaDAO {
                 Categoria categoria = new Categoria();
                 categoria.setId(rs.getInt("id_categoria"));
                 categoria.setNome(rs.getString("nome"));
-                categoria.setTamanho(TamanhoProduto.valueOf(rs.getString("tamanho")));
+                categoria.setTamanho(TamanhoProduto.fromString(rs.getString("tamanho")));
                 categoria.setEmbalagem(EmbalagemProduto.valueOf(rs.getString("embalagem")));
 
                 categorias.add(categoria);
@@ -127,7 +127,7 @@ public class CategoriaDAO {
                 categoria = new Categoria();
                 categoria.setId(rs.getInt("id_categoria"));
                 categoria.setNome(rs.getString("nome"));
-                categoria.setTamanho(TamanhoProduto.valueOf(rs.getString("tamanho")));
+                categoria.setTamanho(TamanhoProduto.fromString(rs.getString("tamanho")));
                 categoria.setEmbalagem(EmbalagemProduto.valueOf(rs.getString("embalagem")));
             }
 
