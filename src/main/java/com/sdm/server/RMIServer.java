@@ -22,7 +22,7 @@ public class RMIServer {
             registry.rebind("ProdutoService", produtoService);
             registry.rebind("CategoriaService", categoriaService);
             registry.rebind("MovimentacaoService", movimentacaoService);
-            registry.rebind("RelatorioService", new RemoteRelatorioImpl());
+            registry.rebind("RelatorioService",  new RemoteRelatorioImpl());
 
             System.out.println("Servidor RMI iniciado na porta " + port);
             System.out.println("Serviços registrados:");

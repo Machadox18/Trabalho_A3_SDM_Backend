@@ -5,7 +5,7 @@ import com.sdm.model.Produto;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
-import java.util.Map;
+
 
 public interface RemoteRelatorio extends Remote {
 
